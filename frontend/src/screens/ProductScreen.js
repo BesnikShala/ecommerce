@@ -1,22 +1,35 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from "react";
 
-import { Link, useParams } from 'react-router-dom'
-import { Row, Col, Image, ListGroup, Button, Card, ListGroupItem } from 'react-bootstrap'
-import  Rating  from '../components/Rating'
-import axios from 'axios'
+import { Link, useParams } from "react-router-dom";
+import {
+  Row,
+  Col,
+  Image,
+  ListGroup,
+  Button,
+  Card,
+  ListGroupItem,
+} from "react-bootstrap";
+import Rating from "../components/Rating";
+import axios from "axios";
 
-
-function ProductScreen({ match }) {
+function ProductScreen() {
   const [product, setProduct] = useState([]);
+  const { id } = useParams();
 
   useEffect(() => {
     async function fetchProduct() {
-      const { data } = await axios.get(`/api/products/${match.params.id}`);
-      setProduct(data);
+      try {
+        const response = await axios.get(`/api/products/${id}`);
+        setProduct(response.data);
+      } catch (error) {
+        console.error(error);
+        alert('An error occurred while fetching the product.');
+      }
     }
 
     fetchProduct();
-  }, [match.params.id]);
+  }, [id]);
 
   return (
     <div>
@@ -80,11 +93,10 @@ function ProductScreen({ match }) {
               </ListGroupItem>
             </ListGroup>
           </Card>{" "}
-          .
         </Col>
       </Row>
     </div>
   );
 }
 
-export default ProductScreen
+export default ProductScreen;

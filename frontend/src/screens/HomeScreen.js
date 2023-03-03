@@ -5,20 +5,21 @@ import axios from 'axios'
 
 
 function HomeScreen() {
-  
-  const [products, setProducts] = useState([])
+  const [products, setProducts] = useState([]);
 
   useEffect(() => {
-
     async function fetchProducts() {
-
-      const { data } = await axios.get('/api/products/')
-      setProducts(data)
+      try {
+        const response = await axios.get('/api/products/');
+        setProducts(response.data);
+      } catch (error) {
+        console.error(error);
+        alert('An error occurred while fetching products.');
+      }
     }
 
-    fetchProducts()
-        
-  }, [])
+    fetchProducts();
+  }, []);
 
   return (
     <div>
