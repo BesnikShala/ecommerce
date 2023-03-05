@@ -6,6 +6,7 @@ export const cartReducer = (state = { cartItems: [] }, action) => {
       const item = action.payload;
       const existItem = state.cartItems.find((x) => x.product === item.product);
 
+      // loop through cart items, if item exits then update quantity. If item doesnt exist then add item
       if (existItem) {
         return {
           ...state,
