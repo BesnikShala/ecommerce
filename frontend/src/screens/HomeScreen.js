@@ -1,25 +1,21 @@
 import React, { useState, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
 import { Row, Col } from 'react-bootstrap'
 import Product from '../components/Product'
-import axios from 'axios'
+import { listProducts } from '../actions/productActions';
 
 
 function HomeScreen() {
-  const [products, setProducts] = useState([]);
+  const dispatch = useDispatch()
+  const productList = useSelector(state => state.productList)
+  const { error, loading, products } = productList
 
   useEffect(() => {
-    async function fetchProducts() {
-      try {
-        const response = await axios.get('/api/products/');
-        setProducts(response.data);
-      } catch (error) {
-        console.error(error);
-        alert('An error occurred while fetching products.');
-      }
-    }
+    dispatch(listProducts())
+    
 
-    fetchProducts();
   }, []);
+
 
   return (
     <div>
